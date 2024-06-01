@@ -15,14 +15,16 @@ export async function getBestProducts({
     );
 
     if (!response.ok) {
-      throw new Error("리스트를 불러오는데 실패했습니다");
+      throw new Error(
+        `Error: bestProducts response status: ${response.status}`
+      );
     }
 
     const result = await response.json();
     console.log("bestItems", result);
     return result;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error: ", error);
     throw error;
   }
 }
@@ -40,25 +42,55 @@ export async function getAllProducts({
     );
 
     if (!response.ok) {
-      throw new Error("리스트를 불러오는데 실패했습니다");
+      throw new Error(
+        `Error: getAllProducts response status: ${response.status}`
+      );
     }
 
     const result = await response.json();
     console.log("allItems", result);
     return result;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error: ", error);
   }
 }
 
-// export async function getProductsDetail({ productId }) {
+export async function getProductsComments({ productId }) {
+  try {
+    const response = await fetch(
+      `https://panda-market-api.vercel.app/products/${productId}/comments?limit=4`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Error: getProductsComments response status: ${response.status}`
+      );
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+}
+
+// export async function createComments(productId, formData) {
 //   try {
 //     const response = await fetch(
-//       `https://panda-market-api.vercel.app/products/${productId}`
+//       `https://panda-market-api.vercel.app/products/${productId}/comments`,
+//       {
+//         method: "POST",
+//         body: formData,
+//       }
 //     );
+
 //     if (!response.ok) {
-//       throw new Error("상품 상세 조회를 불러오는데 실패했습니다");
+//       throw new Error(
+//         `Error: createComments response status: ${response.status}`
+//       );
 //     }
+
 //     const result = await response.json();
 //     return result;
 //   } catch (error) {
@@ -66,21 +98,3 @@ export async function getAllProducts({
 //     throw error;
 //   }
 // }
-
-export async function getProductsComments({ productId }) {
-  try {
-    const response = await fetch(
-      `https://panda-market-api.vercel.app/products/${productId}/comments?limit=5`
-    );
-
-    if (!response.ok) {
-      throw new Error("상품 댓글을 불러오는데 실패했습니다");
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
-  }
-}

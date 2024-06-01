@@ -13,12 +13,16 @@ function AllProducts() {
   const [allPage, setAllPage] = useState(1);
 
   const handleAllLoad = async (options) => {
-    const { list } = await getAllProducts(options);
-    if (options.allPage === 1) {
-      setItems(list);
-    } else {
-      const nextItems = [...list];
-      setItems(nextItems);
+    try {
+      const { list } = await getAllProducts(options);
+      if (options.allPage === 1) {
+        setItems(list);
+      } else {
+        const nextItems = [...list];
+        setItems(nextItems);
+      }
+    } catch (error) {
+      console.error(`Error: handleAllLoad from AllProducts.jsx`, error);
     }
   };
 

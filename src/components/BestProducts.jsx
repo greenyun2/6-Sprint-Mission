@@ -7,8 +7,12 @@ function BestProducts() {
   const [items, setItems] = useState([]);
 
   const handleBestLoad = async (options) => {
-    const { list } = await getBestProducts(options);
-    setItems(list);
+    try {
+      const { list } = await getBestProducts(options);
+      setItems(list);
+    } catch (error) {
+      console.error(`Error: handleBestLoad from BestProducts.jsx`, error);
+    }
   };
 
   useEffect(() => {
